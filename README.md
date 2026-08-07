@@ -1,11 +1,11 @@
-# 🧙 HarryBot
-## Harry Potter Domain-Specific Question Answering Chatbot
+# 🧙 HarryBot - Harry Potter AI Chatbot
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python)
-![AI Chatbot](https://img.shields.io/badge/AI-Chatbot-purple?style=for-the-badge)
-![Dataset](https://img.shields.io/badge/Knowledge%20Base-Excel-green?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
+![Streamlit](https://img.shields.io/badge/Interface-Streamlit-red?style=for-the-badge&logo=streamlit)
+![FAISS](https://img.shields.io/badge/Search-FAISS-green?style=for-the-badge)
+![AI](https://img.shields.io/badge/AI-Chatbot-purple?style=for-the-badge)
 
 </p>
 
@@ -13,84 +13,75 @@
 
 ## 📌 Overview
 
-**HarryBot** is a Python-based domain-specific chatbot designed to answer questions related to the Harry Potter universe using a structured knowledge dataset.
+**HarryBot** is an AI-powered retrieval-based chatbot designed to answer questions about the Harry Potter universe.
 
-Unlike general-purpose chatbots, HarryBot operates within a defined knowledge boundary. The system retrieves information from a custom dataset and provides answers only when relevant information is available. If the requested information cannot be found, the chatbot avoids generating unsupported responses.
+The system combines **semantic search, FAISS vector retrieval, conversational memory, similarity threshold filtering, and a language model** to provide accurate and context-aware responses.
 
-The project demonstrates the development of a controlled question-answering system using Python, data processing, and rule-based response handling.
-
----
-
-# 🎯 Project Objectives
-
-The main objectives of HarryBot are:
-
-- Build a chatbot specialized in the Harry Potter domain.
-- Use a structured dataset as the chatbot's knowledge source.
-- Provide accurate answers based on available information.
-- Prevent irrelevant or unsupported responses.
-- Create a simple and reliable conversational experience.
+Unlike general-purpose chatbots, HarryBot is restricted to its provided knowledge base to reduce hallucinations and prevent unsupported answers.
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-## 🔎 Knowledge-Based Question Answering
-
-HarryBot searches a dedicated Harry Potter knowledge dataset to find relevant information and generate responses.
-
-## 🛡️ Controlled Response Generation
-
-The chatbot follows a strict answering policy:
-
-- If information exists in the dataset → provide the answer.
-- If information is unavailable → respond with:
-
-
-I cannot answer that..
-
-
-This prevents the chatbot from guessing or creating unsupported information.
-
-## 💬 User Interaction Handling
-
-The chatbot supports:
-
-- General greetings
-- Questions about the chatbot
-- Harry Potter-related questions
+- 🔎 Uses **FAISS vector search** for efficient information retrieval
+- 🧠 Uses **Sentence Transformers embeddings** for semantic similarity matching
+- 💬 Supports **conversational memory** for follow-up questions
+- 🎯 Applies **similarity threshold filtering** to improve answer reliability
+- 📚 Answers questions using a dedicated Harry Potter knowledge base
+- 🚫 Rejects unsupported or out-of-scope questions
+- 👋 Handles greetings and chatbot-related questions
+- 🛡️ Includes protections against prompt injection and jailbreak attempts
+- 🖥️ Provides an interactive **Streamlit user interface**
 
 ---
 
-# 🏗️ System Workflow
+# 🏗️ System Architecture
 
-          User Question
-                |
-                ↓
-      Input Processing
-                |
-                ↓
-    Search Knowledge Dataset
-                |
-                ↓
-   Information Available?
-          /          \
-         /            \
-       Yes             No
-        |               |
-        ↓               ↓
-Generate Answer   "I cannot answer that.."
+The chatbot follows a retrieval-based question answering pipeline:
+
+
+User Question
+|
+↓
+Streamlit Interface
+|
+↓
+Generate Query Embedding
+|
+↓
+FAISS Similarity Search
+|
+↓
+Similarity Threshold Check
+|
+┌───────────────┐
+│ │
+High Similarity Low Similarity
+│ │
+↓ ↓
+Return Answer Retrieve Context
+|
+↓
+Language Model
+|
+↓
+Generated Response
+
 
 ---
 
-# 🛠️ Technologies Used
+# 🛠️ Technology Stack
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Main programming language |
-| Pandas | Dataset processing |
-| Excel Dataset | Knowledge source |
-| NLP Techniques | Text processing and matching |
+| Component | Technology |
+|-----------|------------|
+| Programming Language | Python 3.11 |
+| User Interface | Streamlit |
+| Data Processing | Pandas, OpenPyXL |
+| Embedding Model | Sentence Transformers (all-MiniLM-L6-v2) |
+| Vector Database/Search | FAISS (IndexFlatIP) |
+| Language Model | Qwen-Plus |
+| API Client | OpenAI Python SDK |
+| Numerical Processing | NumPy |
 
 ---
 
@@ -100,96 +91,62 @@ Generate Answer   "I cannot answer that.."
 HarryBot/
 │
 ├── app.py
-│ └── Application interface
+│ └── Streamlit application interface
 │
 ├── chatbot.py
-│ └── Core chatbot logic
+│ └── Core chatbot implementation
 │
 ├── harry_potter_data_02.xlsx
-│ └── Harry Potter knowledge dataset
+│ └── Harry Potter knowledge base
 │
 ├── requirements.txt
 │ └── Required Python packages
 │
-├── README.md
-│ └── Project documentation
-│
-└── .gitignore
-└── Ignored files and folders
+└── README.md
+└── Project documentation
 
 
 ---
 
 # ⚙️ Installation & Setup
 
-## 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone <repository-url>
-2. Install Dependencies
+2. Install dependencies
 pip install -r requirements.txt
-3. Run the Application
-python app.py
-🧪 Example Interaction
-Example 1
+3. Run the application
+streamlit run app.py
+💬 Example Behavior
+Supported Question
 User:
-Who is Harry Potter?
+Who is Hermione Granger?
 
-HarryBot:
-Returns information based on the available dataset.
-Example 2
+HarryBot retrieves relevant information from the knowledge base and generates a response.
+
+Unsupported Question
 User:
-Tell me about something unrelated.
+What is the weather today?
 
-HarryBot:
+Response:
+
 I cannot answer that..
-📌 Design Approach
-Data Grounding
+📸 Screenshots
 
-HarryBot relies on a predefined dataset instead of generating answers from external knowledge.
+Add screenshots here:
 
-Reliability
+screenshots/
+├── interface.png
+└── response.png
 
-The system prioritizes providing supported answers rather than making assumptions.
-
-Knowledge Limitation
-
-The chatbot clearly identifies when requested information is outside its available knowledge.
+Example:
 
 🚀 Future Improvements
-
-Future enhancements may include:
-
-Adding semantic search using embeddings.
-Implementing Retrieval-Augmented Generation (RAG).
-Improving natural language understanding.
-Expanding the knowledge database.
-Deploying the chatbot as a web application.
----
-
----
-
-# 📸 Screenshots
-
-## Chatbot Interface
-
-Example interaction with HarryBot:
-
-![HarryBot Interface](screenshots/chatbot_interface.png)
-
-## Example Question Answering
-
-HarryBot answering a Harry Potter-related question:
-
-![HarryBot Response](screenshots/chatbot_response.png)
-
----
-
-
-
----
+Expand the knowledge base with additional Harry Potter information
+Improve retrieval accuracy with advanced ranking methods
+Add voice interaction capabilities
+Deploy the chatbot as a web application
+Enhance memory management for longer conversations
 👩‍💻 Author
-
 Joud Wardeh
-
-AI & Machine Learning Project
